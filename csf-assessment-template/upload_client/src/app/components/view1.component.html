@@ -1,0 +1,40 @@
+<div>
+    <form [formGroup]="form" (submit)="upload()">
+        <table>
+            <tr>
+                <td>Name: </td>
+                <td>
+                    <input type="text" size="30" formControlName="name" placeholder="Name">
+                </td>
+            </tr>
+            <tr>
+                <td>Title: </td>
+                <td>
+                    <input type="text" size="30" formControlName="title" placeholder="Title">
+                </td>
+            </tr>
+            <tr>
+                <td>Comments: </td>
+                <td>
+                    <textarea cols="30" rows="4" formControlName="comments" placeholder="Your comments in here">
+                    </textarea>
+            </tr>
+            <tr>
+                <td>Archive: </td>
+                <td>
+                    <input type="file" accept=".zip" size="30" #file>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <button [routerLink]="[ '/' ]">Cancel</button>
+                </td>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
