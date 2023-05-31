@@ -5,9 +5,15 @@ import java.util.UUID;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import ibf2022.batch2.csf.backend.models.Archive;
+import ibf2022.batch2.csf.backend.models.Bundle;
 
 @Repository
 public class ArchiveRepository {
@@ -46,20 +52,33 @@ public class ArchiveRepository {
 	// You are free to change the parameter and the return type
 	// Do not change the method's name
 	// Write the native mongo query that you will be using in this method
-	//
-	//
-	public Object getBundleByBundleId(/* any number of parameters here */) {
-		return null;
+	/* 
+	db.archives.find({bundleId: bundleId})
+	*/
+	public Object getBundleByBundleId(/* any number of parameters here */ String bundleId) {
+		Query query = Query.query(Criteria.where("bundleId").is(bundleId));
+		return mongoTemplate.findOne(query, Document.class, "archives");
 	}
 
 	//TODO: Task 6
 	// You are free to change the parameter and the return type
 	// Do not change the method's name
 	// Write the native mongo query that you will be using in this method
-	//
-	//
+	/*
+	db.archives.aggregate([
+		{$project: {_id: 0, bundleId: 1, title: 1, date:1}}
+	])
+	*/
+	
 	public Object getBundles(/* any number of parameters here */) {
-		return null;
+		ProjectionOperation pOp = Aggregation.project("bundleId", "title", "date")
+				.andExclude("_id");
+
+		Aggregation pipeline = Aggregation.newAggregation(pOp);
+		AggregationResults<Bundle> results = mongoTemplate.aggregate(
+				pipeline, "archives", Bundle.class);
+		
+		return results.getMappedResults();
 	}
 
 

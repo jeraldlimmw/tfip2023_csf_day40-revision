@@ -1,1 +1,12 @@
-<p>view2 works!</p>
+<div>
+    <h2>{{ archive.title }}</h2>
+    <h4>by {{ archive.name }} on {{ archive.date }} </h4>
+    <p>
+        {{ archive.comments }}
+    </p>
+    <p *ngFor="let u of archive.urls">
+        <img src="{{ u }}" width="400">
+    </p>
+</div>
+
+<button type="button" [routerLink]="['/zipupload']">Back</button>

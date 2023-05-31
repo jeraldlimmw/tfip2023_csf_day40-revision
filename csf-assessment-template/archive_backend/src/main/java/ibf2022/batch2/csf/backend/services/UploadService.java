@@ -24,7 +24,6 @@ public class UploadService {
 
         List<String> urls = new LinkedList<>();
         
-        //convert MultipartFile to File
         ZipInputStream zis = new ZipInputStream(file.getInputStream());
         ZipEntry zipEntry = zis.getNextEntry();
         
@@ -45,13 +44,13 @@ public class UploadService {
                     }
                 }
                 urls.add((String) imgRepo.upload(filename, filesize, contentType, image));
-                System.out.println(">>> urls: " + urls);
             }
             zis.closeEntry();
             zipEntry = zis.getNextEntry();
         }
         zis.close();
-         
+        
+        System.out.println(">>> urls: " + urls); 
         return urls;
     }
 

@@ -1,1 +1,14 @@
-<p>view0 works!</p>
+<table>
+    <tr>
+        <td></td>
+        <td>
+            <button type="button" [routerLink]="['/zipupload']">Upload</button>        
+        </td>
+    </tr>
+    <tr *ngFor="let b of bundles$ | async">
+        <td> 
+            <a [routerLink]="['/saved', b.bundleId]">{{ b.title }}</a>
+        </td>
+        <td>{{ b.date }}</td>
+    </tr>
+</table>

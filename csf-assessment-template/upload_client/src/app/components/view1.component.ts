@@ -3,7 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UploadService } from '../upload.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
+import { ArchiveService } from '../archive.service';
 
 @Component({
   selector: 'app-view1',
@@ -16,11 +17,12 @@ export class View1Component implements OnInit{
   fb = inject(FormBuilder)
   http = inject(HttpClient)
   uploadSvc = inject(UploadService)
+  archiveSvc = inject(ArchiveService)
 
   @ViewChild('file')
   file!: ElementRef
 
-  form! : FormGroup
+  form!: FormGroup
 
   ngOnInit(): void {
       this.form = this.createForm()
@@ -30,7 +32,7 @@ export class View1Component implements OnInit{
     return this.fb.group({
       name: this.fb.control<string>('', [ Validators.required ]),
       title: this.fb.control<string>('', [ Validators.required ]),
-      comments: this.fb.control<string>(''),
+      comments: this.fb.control<string>(' '),
       file: this.fb.control<File | null>(null, [ Validators.required ]),
     })
   }
@@ -41,12 +43,13 @@ export class View1Component implements OnInit{
 
     firstValueFrom(this.uploadSvc.upload(data['name'], data['title'], 
             data['comments'], f))
-      .then(result => {
-        this.form.reset()
-        this.router.navigate(['/saved'])
+      .then(result => result.bundleId)
+      .then(id => {
+          this.form.reset()
+          this.router.navigate(['/saved', id])
       })
       .catch(err => {
-        alert('')
+          alert(JSON.stringify)
       })
   }
 

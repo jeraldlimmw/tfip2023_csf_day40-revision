@@ -32,7 +32,7 @@ public class ImageRepository {
 			, File image) throws IOException {		
 
 		Map<String, String> userData = new HashMap<>();
-		userData.put("filename", filename);
+		userData.put("filename", image.getName());
 		userData.put("upload-date", (new Date()).toString());
 	
 		ObjectMetadata metadata = new ObjectMetadata();
@@ -49,7 +49,7 @@ public class ImageRepository {
 		putReq = putReq.withCannedAcl(CannedAccessControlList.PublicRead);
 	
 		PutObjectResult result = s3.putObject(putReq);
-		System.out.printf(">>> result: %s\n", result);
+		// System.out.printf(">>> result: %s\n", result);
 	
 		return s3.getUrl("tfip-projects", key).toString();
 	}

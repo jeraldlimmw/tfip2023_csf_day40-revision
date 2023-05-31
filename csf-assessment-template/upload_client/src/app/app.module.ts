@@ -9,11 +9,12 @@ import { View0Component } from './components/view0.component';
 import { View1Component } from './components/view1.component';
 import { View2Component } from './components/view2.component';
 import { UploadService } from './upload.service';
+import { ArchiveService } from './archive.service';
 
 const appRoutes: Routes = [
   {path: '', component: View0Component},
   {path: 'zipupload', component: View1Component},
-  {path: 'saved', component: View2Component},
+  {path: 'saved/:bundleId', component: View2Component},
   {path: '**', redirectTo: '/', pathMatch:'full'} 
 ]
 
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
     BrowserModule, ReactiveFormsModule, HttpClientModule
     , RouterModule.forRoot(appRoutes, {useHash : true})
   ],
-  providers: [UploadService],
+  providers: [UploadService, ArchiveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
